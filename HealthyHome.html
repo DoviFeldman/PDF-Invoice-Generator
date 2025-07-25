@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Home Referral Services Invoice Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4d03f;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #e74c3c;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .form-section {
+            padding: 30px;
+            background: #f8fafc;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .download-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+            background: #c0392b;
+        }
+
+        .preview-section {
+            padding: 30px;
+            border-top: 2px solid #e5e7eb;
+            background: #f4d03f;
+        }
+
+        .invoice-preview {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Invoice Template Styles - Exactly matching the second HTML */
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            background-color: #e74c3c;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        
+        .company-name {
+            color: #e74c3c;
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1.2;
+            margin: 0;
+        }
+        
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .issued-to h3, .date-issued h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #333;
+        }
+        
+        .issued-to p, .date-issued p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .service-table {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        
+        .table-header {
+            background-color: #e74c3c;
+            color: white;
+            display: flex;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .description-col {
+            flex: 1;
+        }
+        
+        .total-col {
+            text-align: right;
+        }
+        
+        .service-row {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+        
+        .service-name {
+            flex: 1;
+            color: #333;
+        }
+        
+        .service-amount {
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .amount-due {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            margin-bottom: 60px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .payment-info {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .invoice-details {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .invoice-preview {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .company-name {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Invoice Generator</h1>
+            <p>Healthy Home Referral Services, LLC.</p>
+        </div>
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="clientName">Client Name:</label>
+                <input type="text" id="clientName" name="clientName" placeholder="Client Name" autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="clientAddress">Client Address:</label>
+                <textarea id="clientAddress" name="clientAddress" rows="3" placeholder="Client Address" autocomplete="street-address"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="text" id="startDate" name="startDate" placeholder="MM/DD/YY" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date:</label>
+                    <input type="text" id="endDate" name="endDate" placeholder="MM/DD/YY" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount Due:</label>
+                <input type="text" id="amount" name="amount" placeholder="$0" autocomplete="transaction-amount">
+            </div>
+
+            <div class="buttons">
+                <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <h2 style="margin-bottom: 20px; color: #374151; text-align: center;">Preview</h2>
+            <div class="invoice-preview" id="invoicePreview">
+                <div class="invoice-header">
+                    <div class="logo-placeholder">
+                        [INSERT LOGO HERE]
+                    </div>
+                    <h1 class="company-name">
+                        Healthy Home<br>
+                        Referral<br>
+                        Services,LLC.
+                    </h1>
+                </div>
+                
+                <div class="invoice-details">
+                    <div class="issued-to">
+                        <h3>ISSUED TO</h3>
+                        <p id="previewClient">
+                            Client Name<br>
+                            Client Address
+                        </p>
+                    </div>
+                    <div class="date-issued">
+                        <h3>DATE ISSUED</h3>
+                        <p id="previewDates">MM/DD/YY-MM/DD/YY</p>
+                    </div>
+                </div>
+                
+                <div class="service-table">
+                    <div class="table-header">
+                        <div class="description-col">DESCRIPTION</div>
+                        <div class="total-col">TOTAL</div>
+                    </div>
+                    <div class="service-row">
+                        <div class="service-name">Aide Services</div>
+                        <div class="service-amount" id="previewAmount">$0</div>
+                    </div>
+                </div>
+                
+                <div class="amount-due">
+                    <div>AMOUNT DUE</div>
+                    <div id="previewAmountDue">$0</div>
+                </div>
+                
+                <div class="payment-info">
+                    *Payment can be made through Venmo to @Maurice-Morabia
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // HTML template for PDF generation
+        const htmlTemplate = `    
+            <div class="invoice-header">
+                <div class="logo-placeholder">
+                    [INSERT LOGO HERE]
+                </div>
+                <h1 class="company-name">
+                    Healthy Home<br>
+                    Referral<br>
+                    Services,LLC.
+                </h1>
+            </div>
+            
+            <div class="invoice-details">
+                <div class="issued-to">
+                    <h3>ISSUED TO</h3>
+                    <p>{{clientInfo}}</p>
+                </div>
+                <div class="date-issued">
+                    <h3>DATE ISSUED</h3>
+                    <p>{{dateRange}}</p>
+                </div>
+            </div>
+            
+            <div class="service-table">
+                <div class="table-header">
+                    <div class="description-col">DESCRIPTION</div>
+                    <div class="total-col">TOTAL</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-name">Aide Services</div>
+                    <div class="service-amount">{{amount}}</div>
+                </div>
+            </div>
+            
+            <div class="amount-due">
+                <div>AMOUNT DUE</div>
+                <div>{{amount}}</div>
+            </div>
+            
+            <div class="payment-info">
+                *Payment can be made through Venmo to @Maurice-Morabia
+            </div>
+        `;
+
+        // Update preview
+        function updatePreview() {
+            const clientName = document.getElementById('clientName').value || 'Client Name';
+            const clientAddress = document.getElementById('clientAddress').value || 'Client Address';
+            const startDate = document.getElementById('startDate').value || 'MM/DD/YY';
+            const endDate = document.getElementById('endDate').value || 'MM/DD/YY';
+            const amount = document.getElementById('amount').value || '$0';
+
+            const clientInfo = clientName + (clientAddress ? '<br>' + clientAddress.replace(/\n/g, '<br>') : '');
+            const dateRange = startDate + '-' + endDate;
+
+            document.getElementById('previewClient').innerHTML = clientInfo;
+            document.getElementById('previewDates').textContent = dateRange;
+            document.getElementById('previewAmount').textContent = amount;
+            document.getElementById('previewAmountDue').textContent = amount;
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+
+            // Add input event listeners
+            const inputs = ['clientName', 'clientAddress', 'startDate', 'endDate', 'amount'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePreview);
+            });
+        });
+
+        // Download PDF function
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            // Create a temporary div with the filled template
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = fillTemplate();
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            tempDiv.style.width = '600px';
+            tempDiv.style.padding = '40px';
+            tempDiv.style.backgroundColor = 'white';
+            tempDiv.style.fontFamily = 'Arial, sans-serif';
+            
+            // Add styles to temp div - exactly matching the template
+            const style = document.createElement('style');
+            style.textContent = `
+                .invoice-header { text-align: center; margin-bottom: 60px; }
+                .logo-placeholder { width: 120px; height: 120px; background-color: #e74c3c; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; border-radius: 4px; }
+                .company-name { color: #e74c3c; font-size: 32px; font-weight: bold; line-height: 1.2; margin: 0; }
+                .invoice-details { display: flex; justify-content: space-between; margin-bottom: 40px; }
+                .issued-to h3, .date-issued h3 { margin: 0 0 10px 0; font-size: 14px; font-weight: bold; letter-spacing: 2px; color: #333; }
+                .issued-to p, .date-issued p { margin: 0; font-size: 16px; color: #333; line-height: 1.4; }
+                .service-table { width: 100%; margin-bottom: 40px; }
+                .table-header { background-color: #e74c3c; color: white; display: flex; padding: 15px 20px; font-weight: bold; font-size: 14px; letter-spacing: 1px; }
+                .description-col { flex: 1; }
+                .total-col { text-align: right; }
+                .service-row { display: flex; padding: 20px; border-bottom: 1px solid #ddd; font-size: 18px; }
+                .service-name { flex: 1; color: #333; }
+                .service-amount { text-align: right; font-weight: bold; color: #333; }
+                .amount-due { display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #f8f9fa; margin-bottom: 60px; font-size: 18px; font-weight: bold; }
+                .payment-info { color: #333; font-size: 16px; line-height: 1.5; }
+            `;
+            tempDiv.appendChild(style);
+            
+            document.body.appendChild(tempDiv);
+            
+            try {
+                const canvas = await html2canvas(tempDiv, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgWidth = 190;
+                const pageHeight = 295;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                
+                let position = 10;
+                
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                pdf.save('invoice.pdf');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
+            } finally {
+                document.body.removeChild(tempDiv);
+            }
+        }
+
+        // Fill template with current values
+        function fillTemplate() {
+            const clientName = document.getElementById('clientName').value || 'Client Name';
+            const clientAddress = document.getElementById('clientAddress').value || 'Client Address';
+            const startDate = document.getElementById('startDate').value || 'MM/DD/YY';
+            const endDate = document.getElementById('endDate').value || 'MM/DD/YY';
+            const amount = document.getElementById('amount').value || '$0';
+
+            const clientInfo = clientName + (clientAddress ? '<br>' + clientAddress.replace(/\n/g, '<br>') : '');
+            const dateRange = startDate + '-' + endDate;
+
+            return htmlTemplate
+                .replace(/\{\{clientInfo\}\}/g, clientInfo)
+                .replace(/\{\{dateRange\}\}/g, dateRange)
+                .replace(/\{\{amount\}\}/g, amount);
+        }
+    </script>
+</body>
+</html>
