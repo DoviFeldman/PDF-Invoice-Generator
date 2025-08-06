@@ -133,8 +133,9 @@
         .logo-placeholder {
             width: 120px;
             height: 120px;
-            background-color: #e74c3c;
-            margin: 0 auto 20px;
+/*             background-color: #e74c3c;    i removed this because its the big red box behind the now logo  */ 
+            margin: 0 auto 20px; 
+             margin-top: 40px;  /*  i added this line also to make the logo lower */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -258,7 +259,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Invoice Generator</h1>
+             <h1>Invoice Generator</h1>   <!-- leave this this is for the top part -->
             <p>Healthy Home Referral Services, LLC.</p>
         </div>
 
@@ -302,11 +303,11 @@
 <!--                         [INSERT LOGO HERE] -->
                             <img src="healthyhomelogo.svg" alt="Company Logo" class="company-logo">
                     </div>
-                    <h1 class="company-name">
+<!--                     <h1 class="company-name">
                         Healthy Home<br>
                         Referral<br>
                         Services,LLC.
-                    </h1>
+                    </h1> -->
                 </div>
                 
                 <div class="invoice-details">
