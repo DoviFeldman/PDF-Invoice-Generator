@@ -518,7 +518,7 @@
         function fillTemplate() {
             const billTo = document.getElementById('billTo').value || 'Client Name';
             const service = document.getElementById('service').value || 'Service details will appear here';
-            const amount = document.getElementById('amount').value || '$0.00';
+            const amount = '$' + (document.getElementById('amount').value || '0.00');
             const payment = document.getElementById('payment').value || 'Payment instructions will appear here';
             const from = document.getElementById('from').value || 'Your Name';
             const currentDate = document.getElementById('currentDate').textContent;
