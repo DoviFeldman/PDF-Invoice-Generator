@@ -477,14 +477,14 @@
                 let position = 10;
                 
               //  pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                pdf.addImage(imgData, 'PNG', 0, 0, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins
+                pdf.addImage(imgData, 'PNG', 0, 0, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins THIS WORKED FINALLY
                 heightLeft -= pageHeight;
                 
                 while (heightLeft >= 0) {
                     position = heightLeft - imgHeight;
                     pdf.addPage();
                    // pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    pdf.addImage(imgData, 'PNG', 0, position, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins
+                    pdf.addImage(imgData, 'PNG', 0, position, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins YYYAAAAYYY THIS WORKED FINALLY!!!!!
                     heightLeft -= pageHeight;
                 }
 
