@@ -397,7 +397,7 @@
             const clientAddress = document.getElementById('clientAddress').value || 'Client Address';
             const startDate = document.getElementById('startDate').value || 'MM/DD/YY';
             const endDate = document.getElementById('endDate').value || 'MM/DD/YY';
-            const amount = document.getElementById('amount').value || '$0';
+            const amount = '$' + (document.getElementById('amount').value || '0');
 
             const clientInfo = clientName + (clientAddress ? '<br>' + clientAddress.replace(/\n/g, '<br>') : '');
             const dateRange = startDate + '-' + endDate;
@@ -503,7 +503,7 @@
             const clientAddress = document.getElementById('clientAddress').value || 'Client Address';
             const startDate = document.getElementById('startDate').value || 'MM/DD/YY';
             const endDate = document.getElementById('endDate').value || 'MM/DD/YY';
-            const amount = document.getElementById('amount').value || '$0';
+            const amount = '$' + (document.getElementById('amount').value || '0');
 
             const clientInfo = clientName + (clientAddress ? '<br>' + clientAddress.replace(/\n/g, '<br>') : '');
             const dateRange = startDate + '-' + endDate;
