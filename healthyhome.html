@@ -476,16 +476,17 @@
                 
                 let position = 10;
                 
-                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+              //  pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                pdf.addImage(imgData, 'PNG', 0, 0, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins
                 heightLeft -= pageHeight;
                 
                 while (heightLeft >= 0) {
                     position = heightLeft - imgHeight;
                     pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                   // pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    pdf.addImage(imgData, 'PNG', 0, position, 210, imgHeight * 210 / imgWidth); // added from new new new claude to remove white margins
                     heightLeft -= pageHeight;
                 }
-                pdf.setMargins(0, 0, 0, 0);  // added this in an attempt to get rid of the extra white borders with new claude code
 
                 pdf.save('invoice.pdf');
             } catch (error) {
