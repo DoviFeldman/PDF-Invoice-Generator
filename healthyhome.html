@@ -431,13 +431,13 @@
             tempDiv.style.width = '600px';
             tempDiv.style.padding = '40px';
            // tempDiv.style.backgroundColor = 'white'; //#f4d03f  aug 6th testing i added this back in. OK THIS REMOVED THE BACKGROUND BUT IT ALSO REMOVED THE BORDER!
-            tempDiv.style.backgroundColor = '#f4d03f'; //#f4d03f
+            tempDiv.style.backgroundColor = '#f4d03f';
             tempDiv.style.fontFamily = 'Arial, sans-serif';
             
-            // Add styles to temp div - exactly matching the template                   body { background-color: #f4d03f; padding: 40px; }
 
             const style = document.createElement('style');
             style.textContent = `
+                body { background-color: white; padding: 40px; }
                 .invoice-header { text-align: center; margin-bottom: 60px; }
                 .logo-placeholder { width: 120px; height: 120px; background-color: #e74c3c; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; border-radius: 4px; }
                 .company-name { color: #e74c3c; font-size: 32px; font-weight: bold; line-height: 1.2; margin: 0; }
