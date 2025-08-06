@@ -469,6 +469,7 @@
                 
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF();
+                pdf.setMargins(0, 0, 0, 0);  // added this in an attempt to get rid of the extra white borders with new claude code
                 const imgWidth = 190;
                 const pageHeight = 295;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
