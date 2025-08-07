@@ -135,7 +135,7 @@
             height: 120px;
 /*             background-color: #e74c3c;    i removed this because its the big red box behind the now logo  */ 
             margin: 0 auto 20px; 
-             margin-top: 40px;  /*  i added this line also to make the logo lower */
+            margin-top: 60px;  /*  i added this line also to make the logo lower, new, just make it 60 from 40 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -439,11 +439,11 @@
             tempDiv.style.border = '40px solid #f4d03f'; // added this from the new  new other claude new chat
             tempDiv.style.fontFamily = 'Arial, sans-serif';
             
+            // i removed this line cause it was adding a red box when i downlaoded it     .logo-placeholder { width: 120px; height: 120px; background-color: #e74c3c; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; border-radius: 4px; }
 
             const style = document.createElement('style');
             style.textContent = `
                 .invoice-header { text-align: center; margin-bottom: 60px; }
-                .logo-placeholder { width: 120px; height: 120px; background-color: #e74c3c; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; border-radius: 4px; }
                 .company-name { color: #e74c3c; font-size: 32px; font-weight: bold; line-height: 1.2; margin: 0; }
                 .invoice-details { display: flex; justify-content: space-between; margin-bottom: 40px; }
                 .issued-to h3, .date-issued h3 { margin: 0 0 10px 0; font-size: 14px; font-weight: bold; letter-spacing: 2px; color: #333; }
